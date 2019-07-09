@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-run</actionName>
+        <displayName>run</displayName>
+        <goals>
+            <goal>spring-boot:run</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-sonar-jacoco</actionName>
+        <displayName>sonar-jacoco</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>org.jacoco:jacoco-maven-plugin:0.7.9:prepare-agent</goal>
+            <goal>install</goal>
+            <goal>sonar:sonar</goal>
+        </goals>
+        <properties>
+            <sonar.host.url>http://localhost:9000</sonar.host.url>
+            <sonar.login></sonar.login>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-dependency:sources</actionName>
+        <displayName>dependency:sources</displayName>
+        <goals>
+            <goal>dependency:sources</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-versions</actionName>
+        <displayName>versions</displayName>
+        <goals>
+            <goal>versions:display-dependency-updates</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>run</actionName>
+        <packagings>
+            <packaging>jar</packaging>
+        </packagings>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
+        </goals>
+        <properties>
+            <exec.args>-classpath %classpath com.github.dperezcabrera.test.App</exec.args>
+            <exec.executable>java</exec.executable>
+        </properties>
+    </action>
+</actions>

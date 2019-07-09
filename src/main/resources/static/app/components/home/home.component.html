@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <div style="height: 64px; background-color: #1a6ca3; margin: 0 -15px 15px -15px; border-bottom: 1px #000 solid">
+        <div style="float: right; margin-right: 20px; margin-top: 16px; background-color: #000; padding: 5px 8px">
+            <li style="display: inline;"><a href="" ng-click="ctrl.logout()" ><i class="fas fa-power-off"></i></a></li>
+        </div>
+        <div style="margin-left: 45%; color: #000; padding-top: 18px">{{ctrl.user.username}}</div>
+    </div>
+    <div ng-show="ctrl.state === 'ready'" style="color:  #000">
+        <div>
+            <div style="background-color:  #fff; margin: 30px; padding: 20px">
+                <a href="#!/home">home</a>
+            </div>
+        </div>
+    </div>
+    <div ng-show="ctrl.state === 'waiting'">
+        <div class="waiting-box">
+            <img src="images/loading.gif" alt="waiting..."/>
+        </div>
+    </div>
+</div>
