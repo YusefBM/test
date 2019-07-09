@@ -8,6 +8,28 @@
         </goals>
     </action>
     <action>
+        <actionName>CUSTOM-run-docker</actionName>
+        <displayName>script:run docker</displayName>
+        <goals>
+            <goal>exec:exec</goal>
+        </goals>
+        <properties>
+            <exec.executable>bash</exec.executable>
+            <exec.args>.scripts/docker_test.sh</exec.args>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-run-heroku</actionName>
+        <displayName>script:run heroku</displayName>
+        <goals>
+            <goal>exec:exec</goal>
+        </goals>
+        <properties>
+            <exec.executable>bash</exec.executable>
+            <exec.args>.scripts/heroku_test.sh</exec.args>
+        </properties>
+    </action>
+    <action>
         <actionName>CUSTOM-sonar-jacoco</actionName>
         <displayName>sonar-jacoco</displayName>
         <goals>
