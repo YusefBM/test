@@ -265,7 +265,7 @@
                 <!-- mvn clean package docker:build -->
                 <!-- docker run -it -p 8080:8080 dperezcabrera/Test -->
                 <configuration>
-                    <imageName>dperezcabrera/Test</imageName>
+                    <imageName>dperezcabrera/test</imageName>
                     <imageTag>${project.version}</imageTag>
                     <imageTag>latest</imageTag>
                     <baseImage>openjdk:12-jdk-oracle</baseImage>

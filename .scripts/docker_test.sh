@@ -9,6 +9,8 @@ export SPRING_PROFILES_ACTIVE=production
 
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 
+#mvn clean package docker:build
+
 docker stop test-postgres
 docker run --rm --name test-postgres -p $PORT:5432 -e POSTGRES_DB=${DB_NAME} -e POSTGRES_USER=${JDBC_DATABASE_USERNAME} -e POSTGRES_PASSWORD=${JDBC_DATABASE_PASSWORD} postgres:11.3-alpine 2>&1 1>.scripts/postgres.log &
 
