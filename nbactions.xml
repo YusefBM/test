@@ -15,7 +15,7 @@
         </goals>
         <properties>
             <exec.executable>bash</exec.executable>
-            <exec.args>.scripts/docker_test.sh</exec.args>
+            <exec.args>.scripts/docker.sh</exec.args>
         </properties>
     </action>
     <action>
@@ -26,7 +26,7 @@
         </goals>
         <properties>
             <exec.executable>bash</exec.executable>
-            <exec.args>.scripts/heroku_test.sh</exec.args>
+            <exec.args>.scripts/test.sh</exec.args>
         </properties>
     </action>
     <action>

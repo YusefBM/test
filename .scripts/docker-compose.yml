@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  web:
+    image: dperezcabrera/test
+    environment:
+      JDBC_DATABASE_URL: "jdbc:postgresql://postgres:5432/test"
+      JDBC_DATABASE_USERNAME: ${JDBC_DATABASE_USERNAME}
+      JDBC_DATABASE_PASSWORD: ${JDBC_DATABASE_PASSWORD}
+      SPRING_PROFILES_ACTIVE: production
+    ports:
+      - 8080:8080
+    networks:
+      - test-net
+
+  postgres:
+    image: postgres:11.4-alpine
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: ${JDBC_DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${JDBC_DATABASE_PASSWORD}
+    volumes:
+       - test-data:/var/lib/postgresql/data
+    ports:
+      - 5432
+    networks:
+       - test-net
+
+volumes:
+  test-data:
+
+networks:
+  test-net:

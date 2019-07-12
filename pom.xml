@@ -270,7 +270,6 @@
                     <imageTag>latest</imageTag>
                     <baseImage>openjdk:12-jdk-oracle</baseImage>
                     <entryPoint>["java", "-jar", "/${project.build.finalName}.jar", "--logging.config=/conf/logback.xml"]</entryPoint>
-                    <!--<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>-->
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
