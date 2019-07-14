@@ -15,7 +15,7 @@
         </goals>
         <properties>
             <exec.executable>bash</exec.executable>
-            <exec.args>.scripts/docker.sh</exec.args>
+            <exec.args>.scripts/run-docker.sh</exec.args>
         </properties>
     </action>
     <action>
@@ -26,7 +26,7 @@
         </goals>
         <properties>
             <exec.executable>bash</exec.executable>
-            <exec.args>.scripts/test.sh</exec.args>
+            <exec.args>.scripts/run.sh</exec.args>
         </properties>
     </action>
     <action>

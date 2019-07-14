@@ -258,32 +258,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
             </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker-maven-plugin.version}</version>
-                <!-- mvn clean package docker:build -->
-                <!-- docker run -it -p 8080:8080 dperezcabrera/Test -->
-                <configuration>
-                    <imageName>dperezcabrera/test</imageName>
-                    <imageTag>${project.version}</imageTag>
-                    <imageTag>latest</imageTag>
-                    <baseImage>openjdk:12-jdk-oracle</baseImage>
-                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar", "--logging.config=/conf/logback.xml"]</entryPoint>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/conf</targetPath>
-                            <directory>.</directory>
-                            <include>logback.xml</include>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 </project>
