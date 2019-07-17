@@ -9,6 +9,6 @@ export ENV_DIR=${ENV_DIR:-.env}
 
 mvn clean package
 
-envsubst <docker/Dockerfile | docker build -t dperezcabrera/test . -f -
+envsubst <docker/Dockerfile | docker build -t dperezcabrera/${PROJECT_ARTIFACT} . -f -
 
-docker-compose -f docker/docker-compose.yml up
+envsubst <docker/docker-compose.yml | docker-compose -f - up

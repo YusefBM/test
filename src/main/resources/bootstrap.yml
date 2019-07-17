@@ -1,0 +1,4 @@
+spring:
+  cloud:
+    config:
+      uri: http://test-config:8888

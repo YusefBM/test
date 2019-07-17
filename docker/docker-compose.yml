@@ -1,35 +1,47 @@
 version: "3.7"
 
 services:
-  test-web:
+  ${PROJECT_ARTIFACT}-web:
     image: dperezcabrera/${PROJECT_ARTIFACT}
     environment:
-      JDBC_DATABASE_URL: "jdbc:postgresql://test-postgres:5432/${PROJECT_ARTIFACT}"
+      JDBC_DATABASE_URL: "jdbc:postgresql://${PROJECT_ARTIFACT}-postgres:5432/${PROJECT_ARTIFACT}"
       JDBC_DATABASE_USERNAME: ${DATABASE_USERNAME}
       JDBC_DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       SPRING_PROFILES_ACTIVE: production
     ports:
       - 8080:8080
     depends_on:
-      - test-postgres 
+      - ${PROJECT_ARTIFACT}-postgres 
+      - ${PROJECT_ARTIFACT}-config
     networks:
-      - test-net
+      - ${PROJECT_ARTIFACT}-net
+      
+  ${PROJECT_ARTIFACT}-config:
+    image: hyness/spring-cloud-config-server
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+    ports:
+      - 8888:8888
+    volumes:
+      - /home/dperezcabrera/Dropbox/Code/Test/config:/config
+    networks:
+      - ${PROJECT_ARTIFACT}-net
 
-  test-postgres:
+  ${PROJECT_ARTIFACT}-postgres:
     image: postgres:11.4-alpine
     environment:
       POSTGRES_DB: ${PROJECT_ARTIFACT}
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
-      - test-postgres-data:/var/lib/postgresql/data
+      - ${PROJECT_ARTIFACT}-postgres-data:/var/lib/postgresql/data
     ports:
       - 5432
     networks:
-      - test-net
+      - ${PROJECT_ARTIFACT}-net
 
 volumes:
-  test-postgres-data:
+  ${PROJECT_ARTIFACT}-postgres-data:
 
 networks:
-  test-net:
+  ${PROJECT_ARTIFACT}-net:
