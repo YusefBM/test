@@ -44,7 +44,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <spring-cloud.version>2.1.3.RELEASE</spring-cloud.version>
+        <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
         <logstash-logback.version>6.1</logstash-logback.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <eclipselink.version>2.7.4</eclipselink.version>
@@ -63,7 +63,19 @@
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <docker-maven-plugin.version>1.2.0</docker-maven-plugin.version>
     </properties>
- 
+ 	
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+        
     <dependencies>
         <!-- Code generator -->       
         <dependency>
@@ -126,8 +138,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-client</artifactId>
-            <version>${spring-cloud.version}</version>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         
         <!-- Utilities -->
@@ -140,7 +151,7 @@
             <artifactId>httpclient</artifactId>
         </dependency>
         
-             <!-- Web -->
+        <!-- Web -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
@@ -191,10 +202,6 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>

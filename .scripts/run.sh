@@ -6,4 +6,4 @@ export ENV_DIR=${ENV_DIR:-.env}
 
 . ${ENV_DIR}/env.db.sh
 
-java -jar target/test-*.jar --spring.config.location=config/
+java -jar target/test-*.jar --spring.config.location=config/test/

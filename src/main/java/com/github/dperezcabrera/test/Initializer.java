@@ -30,8 +30,10 @@ public class Initializer implements CommandLineRunner {
 			roleRepository.save(new Role("admin", "Administrator"));
 			roleRepository.save(new Role("user", "User"));
 		}
+		log.info("users: {}", userRepository.count());
 		if (userRepository.count() == 0) {
 			userService.addUser(new UserDto("marina", "Marina", "marina@mail.com", "1", Arrays.asList("user")));
+			userService.addUser(new UserDto("alice", "Alice", "alice@mail.com", "1", Arrays.asList("user")));
 			userService.addUser(new UserDto("david", "David", "david@mail.com", "1", Arrays.asList("admin")));
 		}
 

@@ -1,4 +1,14 @@
 spring:
+  application:
+    name: test
+  profiles:
+    active: production
   cloud:
     config:
       uri: http://test-config:8888
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
