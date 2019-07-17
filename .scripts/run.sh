@@ -2,6 +2,8 @@
 
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 
-. ./.scripts/env.heroku.sh
+export ENV_DIR=${ENV_DIR:-.env}
+
+. ${ENV_DIR}/env.db.sh
 
 java -jar target/test-*.jar

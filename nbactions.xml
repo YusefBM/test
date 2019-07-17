@@ -8,19 +8,30 @@
         </goals>
     </action>
     <action>
-        <actionName>CUSTOM-run-docker</actionName>
-        <displayName>script:run docker</displayName>
+        <actionName>CUSTOM-start-docker</actionName>
+        <displayName>script:start docker</displayName>
         <goals>
             <goal>exec:exec</goal>
         </goals>
         <properties>
             <exec.executable>bash</exec.executable>
-            <exec.args>.scripts/run-docker.sh</exec.args>
+            <exec.args>.scripts/start-docker.sh</exec.args>
         </properties>
     </action>
     <action>
-        <actionName>CUSTOM-run-heroku</actionName>
-        <displayName>script:run heroku</displayName>
+        <actionName>CUSTOM-stop-docker</actionName>
+        <displayName>script:stop docker</displayName>
+        <goals>
+            <goal>exec:exec</goal>
+        </goals>
+        <properties>
+            <exec.executable>bash</exec.executable>
+            <exec.args>.scripts/stop-docker.sh</exec.args>
+        </properties>
+    </action>
+    <action>
+        <actionName>CUSTOM-run-db</actionName>
+        <displayName>script:run db</displayName>
         <goals>
             <goal>exec:exec</goal>
         </goals>
