@@ -1,21 +1,6 @@
 version: "3.7"
 
 services:
-  ${PROJECT_ARTIFACT}-web:
-    image: dperezcabrera/${PROJECT_ARTIFACT}
-    environment:
-      JDBC_DATABASE_URL: "jdbc:postgresql://${PROJECT_ARTIFACT}-postgres:5432/${PROJECT_ARTIFACT}"
-      JDBC_DATABASE_USERNAME: ${DATABASE_USERNAME}
-      JDBC_DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      SPRING_PROFILES_ACTIVE: production
-    ports:
-      - 8080:8080
-    depends_on:
-      - ${PROJECT_ARTIFACT}-postgres 
-      - ${PROJECT_ARTIFACT}-config
-    networks:
-      - ${PROJECT_ARTIFACT}-net
-      
   ${PROJECT_ARTIFACT}-config:
     image: dperezcabrera/spring-cloud-config-server
     environment:
@@ -37,7 +22,7 @@ services:
     volumes:
       - ${PROJECT_ARTIFACT}-postgres-data:/var/lib/postgresql/data
     ports:
-      - 5432
+      - 5432:5432
     networks:
       - ${PROJECT_ARTIFACT}-net
 

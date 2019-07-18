@@ -1,7 +1,6 @@
 package com.github.dperezcabrera.test.architecture.error;
 
 import com.github.dperezcabrera.test.architecture.common.MessageDto;
-import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,13 +16,6 @@ public class GlobalControllerExceptionHandler {
     public MessageDto deniedPermissionException(DeniedPermissionException ex) {
         log.error("deniedPermissionException ",ex);
         return new MessageDto("Denied permission");
-    }
-
-    @ExceptionHandler(value = {ConstraintViolationException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public MessageDto constraintViolationException(ConstraintViolationException ex) {
-        log.error("constraintViolationException ",ex);
-        return new MessageDto("Bad request");
     }
 
     @ExceptionHandler(value = {Exception.class})

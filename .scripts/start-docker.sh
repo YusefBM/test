@@ -9,6 +9,7 @@ export ENV_DIR=${ENV_DIR:-.env}
 
 mvn clean package
 
-envsubst <docker/Dockerfile | docker build -t dperezcabrera/${PROJECT_ARTIFACT} . -f -
+docker build -t dperezcabrera/${PROJECT_ARTIFACT} .
+# docker image prune --filter label=stage=builder
 
 envsubst <docker/docker-compose.yml | docker-compose -f - up
