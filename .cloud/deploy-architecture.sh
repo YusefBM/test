@@ -37,5 +37,5 @@ ssh -o "StrictHostKeyChecking no" -i "$ENV_DIR/$PEM_FILE_PATH" $CLOUD_USER@$CLOU
     rm -rf current
     ln -sf $DEPLOY_DATE current
     docker-compose -f current/docker-compose-architecture-cloud.yml up &
-    sleep 20
+    sleep 5
 EOF
