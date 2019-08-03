@@ -1,5 +1,5 @@
 FROM maven:alpine AS builder
-MAINTAINER David Perez Cabrera, dperezcabrera@gmail.com
+LABEL maintainer="dperezcabrera@gmail.com"
 
 COPY . /app/
 RUN mvn dependency:go-offline -f /app/pom.xml
