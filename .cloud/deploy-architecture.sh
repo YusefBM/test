@@ -10,6 +10,8 @@ export ENV_DIR=${ENV_DIR:-.env}
 export TEMP_DIR=.temp_architecture
 export ARCHITECTURE_DIR=.architecture
 
+export CONFIG_DIR=/home/$CLOUD_USER/$ARCHITECTURE_DIR/current/config
+
 chmod 400 "$ENV_DIR/$PEM_FILE_PATH"
 ssh -o "StrictHostKeyChecking no" -i "$ENV_DIR/$PEM_FILE_PATH" $CLOUD_USER@$CLOUD_HOST << EOF
     if [ -d ${TEMP_DIR} ]; then
@@ -36,6 +38,5 @@ ssh -o "StrictHostKeyChecking no" -i "$ENV_DIR/$PEM_FILE_PATH" $CLOUD_USER@$CLOU
     echo "$DEPLOY_DATE">$DEPLOY_DATE/deploy.txt
     rm -rf current
     ln -sf $DEPLOY_DATE current
-    docker-compose -f current/docker-compose-architecture-cloud.yml up &
-    sleep 5
+    docker-compose -f current/docker-compose-architecture-cloud.yml up
 EOF

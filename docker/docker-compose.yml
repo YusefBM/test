@@ -7,7 +7,7 @@ services:
       JDBC_DATABASE_URL: "jdbc:postgresql://${PROJECT_ARTIFACT}-postgres:5432/${PROJECT_ARTIFACT}"
       JDBC_DATABASE_USERNAME: ${JDBC_DATABASE_USERNAME}
       JDBC_DATABASE_PASSWORD: ${JDBC_DATABASE_PASSWORD}
-      SPRING_PROFILES_ACTIVE: production
+      SPRING_PROFILES_ACTIVE: production,develop
     ports:
       - 8080:8080
     depends_on:

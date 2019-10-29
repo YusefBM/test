@@ -6,7 +6,7 @@ export ENV_DIR=${ENV_DIR:-.env}
 
 . ${ENV_DIR}/env.cloud.sh
 
-export DOCKER_COMPOSE_VERSION=1.24.1
+export DOCKER_COMPOSE_VERSION=${DOCKER_COMPOSE_VERSION:-1.24.1}
 
 chmod 400 "$ENV_DIR/$PEM_FILE_PATH"
 ssh -o "StrictHostKeyChecking no" -i "$ENV_DIR/$PEM_FILE_PATH" $CLOUD_USER@$CLOUD_HOST << EOF

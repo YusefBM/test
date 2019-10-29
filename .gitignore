@@ -1,3 +1,4 @@
 /.env/
 /nb-configuration.xml
 /docker/docker-compose-architecture-cloud.yml
+/target/
