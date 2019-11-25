@@ -14,7 +14,7 @@ services:
       - ${PROJECT_ARTIFACT}-net
 
   ${PROJECT_ARTIFACT}-postgres:
-    image: postgres:11.4-alpine
+    image: postgres:12-alpine
     environment:
       POSTGRES_DB: ${PROJECT_ARTIFACT}
       POSTGRES_USER: ${JDBC_DATABASE_USERNAME}
