@@ -1,104 +1,94 @@
 package com.github.dperezcabrera.it;
 
 import com.github.dockerjava.api.command.CreateContainerCmd;
-import static io.github.bonigarcia.seljup.BrowserType.CHROME;
-import io.github.bonigarcia.seljup.DockerBrowser;
-import io.github.bonigarcia.seljup.SeleniumExtension;
+import java.net.URL;
 import java.util.function.Consumer;
 import org.junit.jupiter.api.AfterAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Tag("integration")
-@Testcontainers
 public class IT {
-
-    @RegisterExtension
-    static SeleniumExtension seleniumExtension = new SeleniumExtension();
 
     static GenericContainer springApp;
     static GenericContainer cloudConfigServer;
     static GenericContainer postgres;
+    static GenericContainer chrome;
+    static final int CHROME_PORT = 4444;
+    static final int CONFIG_PORT = 8888;
+    static final int WEB_PORT = 8080;
+    static final int BBDD_PORT = 5432;
+    static final String CONFIG_HOSTNAME = "test-config";
+    static final String WEB_HOSTNAME = "test-web";
+    static final String BBDD_HOSTNAME = "test-postgres";
 
     @BeforeAll
-    static void setup() {
-        Network network = Network.builder().id("test-network").build();
-
-        Consumer<CreateContainerCmd> cConfig = c -> {
-            c.withName("test-config");
-            c.withPortSpecs("8888:8888");
-        };
+    static void setup() throws InterruptedException {
+        Network network = Network.newNetwork();
+        
+        chrome = new GenericContainer("selenium/standalone-chrome:3.141.59-xenon")
+                .withNetwork(network)
+                .withFileSystemBind("/dev/shm", "/dev/shm", BindMode.READ_WRITE)
+                .waitingFor(Wait.forLogMessage(".*Selenium Server is up and running on port.*", 1));
+        
+        chrome.start();
+        
+        Consumer<CreateContainerCmd> cConfig = c -> c.withName(CONFIG_HOSTNAME);
         cloudConfigServer = new GenericContainer("dperezcabrera/spring-cloud-config-server:latest")
                 .withCreateContainerCmdModifier(cConfig)
+                .withNetwork(network)
                 .withEnv("SPRING_PROFILES_ACTIVE", "native")
                 .withEnv("ENCRYPT_KEY", "password")
-                .withNetwork(network)
-                .withExposedPorts(8888)
-                .withNetworkAliases("test-config")
                 .withFileSystemBind("src/test/resources/config", "/config", BindMode.READ_ONLY)
                 .waitingFor(Wait.forLogMessage(".*Started ConfigServerApplication.*", 1));
 
         cloudConfigServer.start();
 
-        Consumer<CreateContainerCmd> cPostgres = c -> {
-                c.withName("test-postgres");
-                c.withPortSpecs("5432");
-        };
+        Consumer<CreateContainerCmd> cPostgres = c -> c.withName(BBDD_HOSTNAME);
         postgres = new GenericContainer("postgres:12-alpine")
                 .withCreateContainerCmdModifier(cPostgres)
+                .withNetwork(network)
                 .withEnv("POSTGRES_DB", "test")
                 .withEnv("POSTGRES_USER", "postgres")
                 .withEnv("POSTGRES_PASSWORD", "password")
-                .withNetwork(network)
-                .withExposedPorts(5432)
-                .withNetworkAliases("test-postgres")
                 .waitingFor(Wait.forLogMessage(".*database system is ready to accept connections.*", 1));
 
         postgres.start();
 
-        Consumer<CreateContainerCmd> cWeb = c -> {
-                c.withName("test-web");
-                c.withPortSpecs("8080:8080");
-        };
+        Consumer<CreateContainerCmd> cWeb = c -> c.withName(WEB_HOSTNAME);
         springApp = new GenericContainer("openjdk:8-jre-alpine")
                 .withCreateContainerCmdModifier(cWeb)
-                .withNetworkAliases("test-web")
                 .withNetwork(network)
-                .withExposedPorts(8080)
                 .withFileSystemBind("target/test-1.0.0-SNAPSHOT.jar", "/app/spring-boot-app.jar", BindMode.READ_ONLY)
                 .withEnv("ENCRYPT_KEY", "password")
                 .withEnv("SPRING_PROFILES_ACTIVE", "production,develop")
-                .withCommand("java", "-jar", "/app/spring-boot-app.jar", "--spring.application.name=test", "--spring.cloud.config.uri=http://test-config:8888")
+                .withCommand("java", "-jar", "/app/spring-boot-app.jar", "--spring.application.name=test", "--spring.cloud.config.uri=http://"+CONFIG_HOSTNAME+":"+CONFIG_PORT)
                 .waitingFor(Wait.forLogMessage(".*Started App in.*", 1));
 
         springApp.start();
-
-        seleniumExtension.getConfig().setDockerNetwork(network.getId());
-        seleniumExtension.getConfig().setVnc(true);
     }
 
     @AfterAll
     static void finish() {
+        chrome.stop();
         springApp.stop();
         postgres.stop();
         cloudConfigServer.stop();
-
     }
 
     @Test
-    public void testChrome(@DockerBrowser(type = CHROME) RemoteWebDriver driver) throws InterruptedException {
-
-        driver.get("http://test-web:8080/");
+    public void testChrome() throws Exception {
+        RemoteWebDriver driver = new RemoteWebDriver(new URL("http://localhost:"+chrome.getMappedPort(CHROME_PORT)+"/wd/hub"), new ChromeOptions());
+        driver.get("http://"+WEB_HOSTNAME+":"+WEB_PORT+"/");
         assertTrue(driver.getTitle().contains("App Test"));
-        Thread.sleep(60000);
+        //Thread.sleep(10000);
     }
 }
