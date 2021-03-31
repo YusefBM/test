@@ -59,7 +59,7 @@
         <junit-platform.version>1.5.2</junit-platform.version>
         <selenium-jupiter.version>3.3.2</selenium-jupiter.version>
         <testcontainers.version>1.12.3</testcontainers.version>
-        <guava.version>28.1-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <!-- plugins  -->
         <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
